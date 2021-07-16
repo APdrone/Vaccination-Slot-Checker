@@ -100,12 +100,9 @@ const createVaccinationDOM = (data) => {
       tableBd.append(tr);
     });
   } else {
-    // const ptag = document.createElement("p");
-    // ptag.setAttribute("class", "text-center");
-    // ptag.innerHTML = "No records found!!!";
-    // tableMain.insertAdjacentElement("afterend", ptag);
 
-    alert("No records found!!! Check other centers");
+
+    alert("No records found!!! Please check other centers for slot");
   }
 };
 

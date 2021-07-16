@@ -9,7 +9,6 @@ const fetchResponse = (uri, callFn) => {
 };
 
 const createStateDOM = (data) => {
-  console.log(data.states);
 
   data.states.forEach((state) => {
     const alink = document.createElement("a");

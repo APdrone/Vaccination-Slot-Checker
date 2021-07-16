@@ -1,6 +1,7 @@
 const dropdownsMenu = document.querySelectorAll(".dropdown-menu");
 const dropdownBtn = document.querySelectorAll("#dropdownMenuButton");
 const tableBd = document.querySelector("tbody");
+const tableMain = document.querySelector("table");
 
 const fetchResponse = (uri, callFn) => {
   fetch(uri)
@@ -56,38 +57,56 @@ const todaysDate = () => {
 };
 
 const createVaccinationDOM = (data) => {
+
   if (tableBd) {
     tableBd.innerHTML = "";
   }
 
-  data.sessions.forEach((center) => {
-    const tr = document.createElement("tr");
+  if (data.sessions.length !== 0) {
+    data.sessions.forEach((center) => {
+      const tr = document.createElement("tr");
 
-    const name = document.createElement("td");
-    name.innerText = center.name;
+      const name = document.createElement("td");
+      name.innerText = center.name;
 
-    const address = document.createElement("td");
-    address.innerText = center.address;
+      const address = document.createElement("td");
+      address.innerText = center.address;
 
-    const capacity = document.createElement("td");
-    capacity.innerText = center.available_capacity;
+      const capacity = document.createElement("td");
+      capacity.innerText = center.available_capacity;
 
-    const capacity1 = document.createElement("td");
-    capacity1.innerText = center.available_capacity_dose1;
+      const capacity1 = document.createElement("td");
+      capacity1.innerText = center.available_capacity_dose1;
 
-    const capacity2 = document.createElement("td");
-    capacity2.innerText = center.available_capacity_dose2;
+      const capacity2 = document.createElement("td");
+      capacity2.innerText = center.available_capacity_dose2;
 
-    const feeType = document.createElement("td");
-    feeType.innerText = center.fee_type;
+      const feeType = document.createElement("td");
+      feeType.innerText = center.fee_type;
 
-    const vaccine = document.createElement("td");
-    vaccine.innerText = center.vaccine;
+      const vaccine = document.createElement("td");
+      vaccine.innerText = center.vaccine;
 
-    tr.append(name, address, feeType, vaccine, capacity, capacity1, capacity2);
+      tr.append(
+        name,
+        address,
+        feeType,
+        vaccine,
+        capacity,
+        capacity1,
+        capacity2
+      );
 
-    tableBd.append(tr);
-  });
+      tableBd.append(tr);
+    });
+  } else {
+    // const ptag = document.createElement("p");
+    // ptag.setAttribute("class", "text-center");
+    // ptag.innerHTML = "No records found!!!";
+    // tableMain.insertAdjacentElement("afterend", ptag);
+
+    alert("No records found!!! Check other centers");
+  }
 };
 
 dropdownsMenu[1].addEventListener("click", (event) => {

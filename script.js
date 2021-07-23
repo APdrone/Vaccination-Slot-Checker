@@ -1,16 +1,22 @@
+/* Variables */
 const dropdownsMenu = document.querySelectorAll(".dropdown-menu");
 const dropdownBtn = document.querySelectorAll("#dropdownMenuButton");
 const tableBd = document.querySelector("tbody");
 const tableMain = document.querySelector("table");
 
+/* Common  fetch function  */
 const fetchResponse = (uri, callFn) => {
   fetch(uri)
-    .then((readerData) => readerData.json())
-    .then((data) => callFn(data));
+    .then((readerData) => {
+      if (!readerData.ok) throw new Error(`${readerData.status}`);
+      return readerData.json();
+    })
+    .then((data) => callFn(data))
+    .catch((error) => alert("Error in fetching  data , Getting " + error));
 };
 
+/* for creating Dropdown for states */
 const createStateDOM = (data) => {
-
   data.states.forEach((state) => {
     const alink = document.createElement("a");
 
@@ -27,6 +33,8 @@ fetchResponse(
   createStateDOM
 );
 
+/*  for creating Dropdown for destricts */
+
 const createDestrictDOM = (data) => {
   dropdownsMenu[1].innerText = "";
   data.districts.forEach((destrict) => {
@@ -40,7 +48,10 @@ const createDestrictDOM = (data) => {
   });
 };
 
+/* Event listener for adding data in the body for selected destrict */
+
 dropdownsMenu[0].addEventListener("click", (event) => {
+  dropdownBtn[0].innerHTML = event.target.innerText;
   dropdownBtn[1].classList.remove("disabled");
   const destrict_id = event.target.getAttribute("state_id");
   fetchResponse(
@@ -48,6 +59,8 @@ dropdownsMenu[0].addEventListener("click", (event) => {
     createDestrictDOM
   );
 });
+
+/* for getting todays date */
 
 const todaysDate = () => {
   let today = new Date();
@@ -57,7 +70,6 @@ const todaysDate = () => {
 };
 
 const createVaccinationDOM = (data) => {
-
   if (tableBd) {
     tableBd.innerHTML = "";
   }
@@ -100,13 +112,14 @@ const createVaccinationDOM = (data) => {
       tableBd.append(tr);
     });
   } else {
-
-
-    alert("No records found!!! Please check other centers for slot");
+    alert("No records found!!! Please check other centers");
   }
 };
 
+/* for creating listener for destricts */
+
 dropdownsMenu[1].addEventListener("click", (event) => {
+  dropdownBtn[1].innerHTML = event.target.innerText;
   dropdownBtn[1].classList.remove("disabled");
   const destrict_id = event.target.getAttribute("district_id");
   fetchResponse(
